@@ -4,9 +4,10 @@ import wget
 import time
 
 goproHTTPRoot = "http://10.5.5.9/videos/DCIM/"
+goproHTTPShutter = "http://10.5.5.9/gp/gpControl/command/shutter?p=1"
 
 def takeshot():
-    r = requests.get("http://10.5.5.9/gp/gpControl/command/shutter?p=1")
+    r = requests.get(goproHTTPShutter)
     return r.status_code
     
 def getFoldersList():
@@ -48,7 +49,6 @@ def getAllPhotoPaths():
     
 def getLastPhotoPath():
     allPhotosPathsList = sorted(getAllPhotoPaths())
-    print allPhotosPathsList
     return allPhotosPathsList[-1]
     
 def downloadPhoto(url):
@@ -60,9 +60,3 @@ def takePhotoAndDownload():
     time.sleep(5)
     lastPhoto =  getLastPhotoPath()
     return downloadPhoto(goproHTTPRoot + lastPhoto)
-    
-
-
-if __name__ == '__main__':
-    takenPhotoName = takePhotoAndDownload()
-    print takenPhotoName
